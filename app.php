@@ -34,13 +34,26 @@ function init($app_dir, $components_dir) {
         'controller' => [],
         'config' => include APP_PATH . 'config' . DIRECTORY_SEPARATOR . 'app.php',
     ];
+
+    /**
+     * Check needed i18n
+     */
+    if (isset($app['config']['lang'])) {
+        f('core:i18n:load_messages', $app['config']['lang']);
+        if (!function_exists('__')) {
+            function __($str, array $values = NULL, $lang = 'en-us') {
+                $str = $lang !== gc('lang') ?  f('core:i18n:get', $str) : $str;
+                return empty($values) ? $str : strtr($str, $values);
+            }
+        }
+    }
 }
 
 
 /**
- * Load controller
+ * Load component
  * @global array $app
- * @param string $name Controller name
+ * @param string $name Component name
  */
 function lc ($name) {
     global $app;
@@ -48,9 +61,20 @@ function lc ($name) {
 }
 
 /**
+ * Get config value by key
+ * @param string $key Key
+ * @param mixed $default Default value
+ * @return mixed Value
+ */
+function gc($key, $default = NULL) {
+    global $app;
+    return isset($app['config'][$key]) ? $app['config'][$key] : $default;
+}
+
+/**
  * Get any function from any component
  * @global array $app
- * @param type $f
+ * @param string $f
  * @return array
  */
 function gf($f) {

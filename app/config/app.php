@@ -2,6 +2,7 @@
 
 return [
     'app_name' => 'Super test',
+    'lang' => 'ru',
     'components' => [
         'core:route' => [
             'default_controller' => 'default',
