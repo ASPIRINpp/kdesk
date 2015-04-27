@@ -47,7 +47,7 @@ return [
         }
         
         $sql = (is_array($params) && !empty($params)) ? f('db:mysql:build_sql', $sql, $params) : $sql;
-        
+
         if (($result = mysql_query($sql, $link)) === FALSE) {
             trigger_error(mysql_error($link).' #'.mysql_errno($link), E_USER_ERROR);
         }
@@ -60,8 +60,19 @@ return [
         if (!is_null($r)) {
             $result = mysql_fetch_assoc($r);
             mysql_free_result($r);
-        } 
+        }
         return !$result ? array() : $result;
+    },
+    'db:mysql:q_scalar' => function($sql, $params = [], $key = 0, $link = 0) {
+        $r = f('db:mysql:query', $sql, $params, $link);
+        $result = array();
+        if (!is_null($r)) {
+            $result = mysql_fetch_assoc($r);
+            mysql_free_result($r);
+        }
+        $result = !$result ? array() : $result;
+
+        return isset($result[$key]) ? $result[$key] : NULL;
     },
     'db:mysql:q_all' => function($sql, $params = [], $link = 0) {
         $r = f('db:mysql:query', $sql, $params, $link);
