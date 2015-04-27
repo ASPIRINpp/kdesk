@@ -20,8 +20,9 @@ return [
     'core:route:go' => function () {
         global $app;
         $config = $app['config']['components']['core:route'];
-        $routes = explode('/', $_SERVER['REQUEST_URI']);
-        
+        $uri = explode('?', $_SERVER['REQUEST_URI']);
+        $routes = explode('/', $uri[0]);
+
         // Get controller name
         $controller = !empty($routes[1]) ? strtolower($routes[1]) : $config['default_controller'];
         // Get action name

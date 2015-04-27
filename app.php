@@ -32,6 +32,7 @@ function init($app_dir, $components_dir) {
     $app = [
         'components' => [],
         'controller' => [],
+        'models' => [],
         'config' => include APP_PATH . 'config' . DIRECTORY_SEPARATOR . 'app.php',
     ];
 
@@ -50,14 +51,50 @@ function init($app_dir, $components_dir) {
 }
 
 
+function _loader($name, $to = 'vendor') {
+    global $app;
+    switch($to) {
+        case 'components':
+            $path = COM_PATH;
+            break;
+        case 'controller':
+            $path = APP_PATH . 'controllers' . DIRECTORY_SEPARATOR;
+            break;
+        case 'models':
+            $arr = explode(':', $name);
+            $app[$to] = array_merge($app[$to], include APP_PATH . 'models' . DIRECTORY_SEPARATOR . $arr[0] . '.php');
+            return;
+        default:
+            // Vendor
+            $path = APP_PATH . 'vendors' . DIRECTORY_SEPARATOR;
+            break;
+    }
+
+    $app[$to] = array_merge($app[$to], include $path . str_replace(':', DIRECTORY_SEPARATOR, $name) . '.php');
+}
+
+function _getter($f, $from) {
+    global $app;
+    if (!isset($app[$from][$f])) {
+        $arr = explode(':', $f);
+        if (count($arr) > 1) {
+            _loader("{$arr[0]}:{$arr[1]}", $from);
+        }
+    }
+    return $app[$from][$f];
+}
+
+function _caller($f, $from, $args) {
+    return call_user_func_array(_getter($f, $from), $args);
+}
+
 /**
  * Load component
  * @global array $app
  * @param string $name Component name
  */
 function lc ($name) {
-    global $app;
-    $app['components'] = array_merge($app['components'], include COM_PATH . str_replace(':', DIRECTORY_SEPARATOR, $name) . '.php');
+    _loader($name, 'components');
 }
 
 /**
@@ -71,6 +108,7 @@ function gc($key, $default = NULL) {
     return isset($app['config'][$key]) ? $app['config'][$key] : $default;
 }
 
+
 /**
  * Get any function from any component
  * @global array $app
@@ -78,14 +116,7 @@ function gc($key, $default = NULL) {
  * @return array
  */
 function gf($f) {
-    global $app;
-    if (!isset($app['components'][$f])) {
-        $arr = explode(':', $f);
-        if (count($arr) > 1) {
-            lc("{$arr[0]}:{$arr[1]}");
-        }
-    }
-    return $app['components'][$f];
+    return _getter($f, 'components');
 }
 
 /**
@@ -100,6 +131,18 @@ function f($f) {
         $args = func_get_args();
         unset($args[0]);
     }
-    return call_user_func_array(gf($f), $args);
+    return _caller($f, 'components', $args);
 }
 
+/**
+ * @param $f
+ * @return mixed
+ */
+function m($f) {
+    $args = [];
+    if (func_num_args() > 1) {
+        $args = func_get_args();
+        unset($args[0]);
+    }
+    return _caller($f, 'models', $args);
+}
