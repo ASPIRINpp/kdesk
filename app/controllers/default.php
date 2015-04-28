@@ -2,15 +2,22 @@
 
 return [
     'action:index' => function() {
-        $r = null;
-        if(!empty($_GET['email'])) {
+        $r = FALSE;
+        $msg = '';
+        if (!empty($_GET['email'])) {
             $email = f('helpers:arr:get', 'email', $_GET);
-            $r = m('sys_users:email_exist', $email);
+            if (!f('helpers:validation:email', $email)) {
+                $msg = 'Email not valid';
+            }
+            $r = !m('sys_users:email_exist', $email);
+            if (!$r) {
+                $msg = 'Email already exist';
+            }
         }
-        f('core:view:compile', 'default/index', ['r' => $r]);
-        f('core:view:render');
+        f('core:view:render', 'default/index', ['r' => $r, 'msg' => $msg]);
     },
     'action:test' => function() {
         echo 'Action test!';
     }
 ];
+        

@@ -1,3 +1,2 @@
-Result:
-<pre> <?php var_dump($r); ?></pre>
-<br>
+Result: <?= $r ? 'Success' : 'Fail' ?><br>
+<?= $msg; ?>
