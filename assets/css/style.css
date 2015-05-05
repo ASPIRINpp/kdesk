@@ -1,0 +1,23 @@
+/* Global */
+.navbar-top {
+    border-radius: 0;
+}
+.container, .panel-body {
+    word-wrap: break-word;
+}
+/* Comment form */
+#sendComment {
+    position:absolute;
+    bottom:20px;
+    right:20px;
+    opacity: 0;
+}
+#containerComment {
+    position:relative;
+}
+#containerComment:hover #sendComment {
+    opacity: 0.5;
+}
+#sendComment:hover {
+    opacity: 1;
+}

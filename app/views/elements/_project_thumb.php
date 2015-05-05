@@ -3,7 +3,7 @@ $cost = !$cost ? FALSE : f('helpers:currency:format', $cost, 0, ',', ' ');
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a href="#<?=$id?>" class="panel-title"><?=$title;?></a>
+        <a href="/project/<?=$id?>" class="panel-title"><?=$title;?></a>
         <?php if($cost): ?>
             <span class="hidden-xs pull-right"><?=$cost?> р.</span>
         <?php endif; ?>
@@ -12,6 +12,6 @@ $cost = !$cost ? FALSE : f('helpers:currency:format', $cost, 0, ',', ' ');
         <?php if($cost): ?>
             <p class="visible-xs">Цена: <?=$cost?> р.</p>
         <?php endif; ?>
-        <?=$description;?>
+        <?=$description_short;?>
     </div>
 </div>

@@ -15,7 +15,10 @@ return [
         'core:route' => [
             'default_controller' => 'default',
             'default_action' => 'index',
-            'routes' => []
+            'routes' => [
+                'project/<id>' => [['controller' => 'project', 'action' => 'index'], ['id' => '\d+']],
+                'manage/<id>' => [['controller' => 'project', 'action' => 'manage'], ['id' => '\d+']],
+            ]
         ],
         'db:mysql' => [
             'srv0' => ['h' => 'localhost', 'd' => 'kdesk', 'u' => 'root', 'p' => '']

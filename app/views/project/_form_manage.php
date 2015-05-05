@@ -1,0 +1,1 @@
+<a href="/manage/<?= $project['id'] ?>">manage</a>
