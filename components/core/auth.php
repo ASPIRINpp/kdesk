@@ -19,7 +19,7 @@ return [
 
         // Set auth key in db
         m('sys_users:set_authkey' , $id, f('core:session:id'));
-
+        
         if(is_array($params)) {
             foreach($params as $key => $val) {
                 f('core:session:set', $key, $val);

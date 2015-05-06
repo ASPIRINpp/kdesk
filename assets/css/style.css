@@ -11,6 +11,20 @@
 #inputSearchProjects {
     width: 100%;
 }
+.glyphicon-big{
+    font-size: 120px;
+}
+.glyphicon-xs{
+    font-size: 8pt
+}
+.jumbotron-center {
+  text-align: center;
+  background-color: transparent;
+}
+.jumbotron-center .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
 /* Comment form */
 #sendComment {
     position:absolute;
