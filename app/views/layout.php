@@ -20,6 +20,7 @@
         <?php f('core:view:print', 'elements/_navbar'); ?>
         <?php if(!f('core:auth:logged')) {f('core:view:print', 'elements/_jumbotron');} ?>
         <div class="container">
+            <?php if(isset($alerts)) echo $alerts;?>
             <?= $content; ?>
             <hr>
             <footer><p>&copy; kDesk <?= date('Y'); ?></p></footer>

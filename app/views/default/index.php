@@ -5,7 +5,6 @@
     <h1><?= __('Last projects') ?></h1>
 </div>
 
-
 <?php
 if (is_array($projects)) {
     foreach ($projects as $project) {

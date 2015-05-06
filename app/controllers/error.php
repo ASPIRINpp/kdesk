@@ -2,10 +2,10 @@
 
 return [
     'action:500' => function() {
-        echo '500 error';
+        f('core:view:render', 'error/index', ['code' => 500, 'msg' => 'Server error!']);
     },
     'action:404' => function() {
-        echo '404 error';
+        f('core:view:render', 'error/index', ['code' => 404, 'msg' => 'Page not found!']);
     },
 ];
 

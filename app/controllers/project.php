@@ -7,17 +7,17 @@ return [
 
         // Empty?
         if (empty($project)) {
-            die('404');
+            return f('core:view:render', 'error/index', ['code' => 404, 'msg' => 'Page not found!']);
         }
 
         $project_id = $params['id'];
-        $loogged = f('core:auth:logged');
-        if ($looged) {
+        $logged = f('core:auth:logged');
+        if ($logged) {
             $user_id = f('core:session:get', 'id');
         }
         
         // Get comment post data
-        if (isset($_POST['Comment']) && !empty($_POST['Comment']['text']) && $looged) {
+        if (isset($_POST['Comment']) && !empty($_POST['Comment']['text']) && $logged) {
             m('dk_projects_comments:comment',$project_id, f('helpers:string:markup', $_POST['Comment']['text']), $user_id);
         }
 
@@ -29,13 +29,13 @@ return [
         $alerts = '';
 
         // Get project post data
-        if (isset($_POST['Project']) && $loogged) {
+        if (isset($_POST['Project']) && $logged) {
              list($project, $alerts) = m('Project:do', f('helpers:arr:get', 'do', $_POST['Project']), $project);
         }
         
         // Select form view
         $form = FALSE;
-        if ($loogged) {
+        if ($logged) {
             if ($project['id_sys_users_author'] === $user_id) {
                 $form = 'manage';
             } elseif ($project['status'] === 'open') {
@@ -76,7 +76,7 @@ return [
         
          // Empty?
         if (empty($project)) {
-            die('404');
+            return f('core:view:render', 'error/index', ['code' => 404, 'msg' => 'Page not found!']);
         }
         
         // This is not author
@@ -102,7 +102,7 @@ return [
         }
         $alerts = '';
         if(isset($_POST['Project'])) {
-            $r = m('Project:create', $data);
+            $r = m('Project:create', $_POST['Project']);
             if($r['success']) {
                 // All ok
                 return f('core:response:redirect', "/project/{$r['id']}");
@@ -121,7 +121,7 @@ return [
                 ], TRUE);
             } else {
                 // Something went wrong
-                f('core:response:redirect', '/error/500');
+                return f('core:view:render', 'error/index', ['code' => 500, 'msg' => 'Server error!']);
             }
         }
         
