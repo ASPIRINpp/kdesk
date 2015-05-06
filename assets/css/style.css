@@ -5,6 +5,12 @@
 .container, .panel-body {
     word-wrap: break-word;
 }
+.searchForm {
+    margin-right: 0;
+}
+#inputSearchProjects {
+    width: 100%;
+}
 /* Comment form */
 #sendComment {
     position:absolute;
@@ -21,3 +27,4 @@
 #sendComment:hover {
     opacity: 1;
 }
+
