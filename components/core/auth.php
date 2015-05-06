@@ -32,4 +32,12 @@ return [
         m('sys_users:set_authkey' , f('core:session:get', 'id'), NULL);
         return f('core:session:close');
     },
+    'core:auth:update_moneys' => function() {
+        if(f('core:auth:logged')) {
+            $d = m('sys_users:get_money', f('core:session:get', 'id'));
+            foreach ($d as $k => $v) {
+                f('core:session:set', $k, $v);
+            }
+        }
+    }
 ];
