@@ -24,7 +24,7 @@ return [
         $p = [':time' => time()];
         foreach ($rows as $key => $row) {
             foreach ($row as $col => $val) {
-                $p[":$col_$key"] = $val;
+                $p[":{$col}_{$key}"] = $val;
             }
             $values .= " ,(:id_sys_users_$key, :type_$key, :sum_$key, :comment_$key, :time)";
         }

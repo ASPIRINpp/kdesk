@@ -1,1 +1,1 @@
-<a class="pull-right" href="/manage/<?= $project['id'] ?>">Edit this project</a>
+<a class="pull-right" href="#/manage/<?= $project['id'] ?>">Edit this project</a>

@@ -18,7 +18,7 @@
         <?php else: ?>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/project/search">Projects</a></li>
+                    <li><a href="/project/search">Search</a></li>
                     <li><a href="/project/inwork">In work</a></li>
                     <li><a href="/finance">Finance</a></li>
                     <li><a href="/profile">Account</a></li>
@@ -29,7 +29,7 @@
                             $money = "<span class=\"" . ($money > 0 ? 'text-success' : 'text-danger') . "\">" . f('helpers:currency:dec_nformat', $money, 2, ',', ' ') . "</span>";
                             $reserve = f('core:session:get', 'money_reserve');
                             echo $reserve ? "$money (<span class=\"text-warning\">+" . f('helpers:currency:dec_nformat', $reserve, 2, ',', ' ') . "</span>)" : $money;
-                            ?> р.</a></li>
+                            ?><span class="glyphicon glyphicon-rub glyphicon-xs"></span></a></li>
                     <li><a href="/logout"><?= ucfirst(strtolower(f('core:session:get', 'login'))) ?>, logout</a></li>
                 </ul>
             </div>

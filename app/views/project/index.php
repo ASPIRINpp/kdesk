@@ -13,10 +13,10 @@
 
 <div class="row">
     <?php
-    $cost = !$project['cost'] ? FALSE : f('helpers:currency:dec_nformat', $project['cost'], 2, ',', ' ');
+    $cost = !$project['cost'] ? __('Not defined') : f('helpers:currency:dec_nformat', $project['cost'], 2, ',', ' ').'<span class="glyphicon glyphicon-rub glyphicon-xs"></span>';
     ?>
     <div class="col-md-2">Date: <?= date(__('d.m.Y H:i'), $project['time_created']) ?></div>
-    <div class="col-md-2">Cost: <strong><?= $cost ?></strong> р.</div>
+    <div class="col-md-2">Cost: <strong><?= $cost ?></strong></div>
     <div class="col-md-2">Views: <?= $project['views'] ?></div>
     <div class="col-md-6"><?= $form ? f('core:view:print', "project/_form_$form", ['project' => $project], TRUE) : ''; ?></div>
 </div>

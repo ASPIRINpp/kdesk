@@ -46,7 +46,11 @@ return [
         }
         
         if ($project['status'] === 'closed') {
-            $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'danger', 'text' => '<b>Sorry!</b>This project already closed...'], TRUE);
+            if($logged && $project['id_sys_users_performer'] === $user_id) {
+                $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'success', 'text' => '<b>Congratulations!</b>You successfully done this project...'], TRUE);
+            } else {
+                $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'danger', 'text' => '<b>Sorry!</b>This project already closed...'], TRUE);
+            }
         }elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] !== $user_id) {
             $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'warning', 'text' => '<b>Sorry!</b>This project already in work...'], TRUE);
         }elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] === $user_id) {

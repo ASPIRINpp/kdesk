@@ -22,18 +22,20 @@ return [
                 && $project['id_sys_users_performer'] === $user_id 
                 && $r = m('dk_projects:update_status', $project['id'], 'closed', FALSE) != FALSE) {
                     $project['status'] = 'closed';
-                    // Remove reserve
-                    m('sys_users:dec_reserve_money', $project['id_sys_users_author'], $project['cost']+$project['tax']);
-                    // Pay for job
-                    m('sys_users:inc_money', $user_id, $project['cost']);
-                    // Pay tax
-                    m('sys_settings:inc', 'project_money', $project['tax']);
-                    // Logs pay
-                    m('fn_logs:add_rows', [
-                        ['id_sys_users' => $project['id_sys_users_author'], 'type' => 1, 'sum' => $project['cost'], 'comment' => "Pay for project #{$project['id']} from reserve"],
-                        ['id_sys_users' => $project['id_sys_users_author'], 'type' => 1, 'sum' => $project['tax'], 'comment' => "Tax for project #{$project['id']} from reserve"],
-                        ['id_sys_users' => $user_id, 'type' => 0, 'sum' => $project['cost'], 'comment' => "Pay for project #{$project['id']} from reserve"],
-                    ]);
+                    if($project['cost'] > 0) {
+                        // Remove reserve
+                        m('sys_users:dec_reserve_money', $project['id_sys_users_author'], $project['cost']+$project['tax']);
+                        // Pay for job
+                        m('sys_users:inc_money', $user_id, $project['cost']);
+                        // Pay tax
+                        m('sys_settings:inc', 'project_money', $project['tax']);
+                        // Logs pay
+                        m('fn_logs:add_rows', [
+                            ['id_sys_users' => $project['id_sys_users_author'], 'type' => 1, 'sum' => $project['cost'], 'comment' => "Pay for project #{$project['id']} from reserve"],
+                            ['id_sys_users' => $project['id_sys_users_author'], 'type' => 1, 'sum' => $project['tax'], 'comment' => "Tax for project #{$project['id']} from reserve"],
+                            ['id_sys_users' => $user_id, 'type' => 0, 'sum' => $project['cost'], 'comment' => "Pay for project #{$project['id']} from reserve"],
+                        ]);
+                    }
                 }
                 break;
             case 'cancel':
@@ -79,6 +81,9 @@ return [
             // Check money
             ['cost', 'callback', [function($amount) {
                 f('core:auth:update_moneys');
+                if($amount == 0) {
+                    return TRUE;
+                }
                 $money = m('sys_users:get_money', f('core:session:get', 'id'), 'money');
                 $tax = m('sys_settings:get', 'tax', 0);
                 if($tax) {
@@ -93,7 +98,7 @@ return [
             // Prepare additions data
             $id_user = f('core:session:get', 'id');
             $cost = f('helpers:currency:normalize', $data['cost']);
-            $tax = f('helpers:currency:precent', $cost, m('sys_settings:get', 'tax', 0));
+            $tax = ($cost > 0) ? f('helpers:currency:precent', $cost, m('sys_settings:get', 'tax', 0)) : 0;
             // Crate project
             list($id) = m('dk_projects:add', $id_user, $data['title'], $data['description'], $cost, $tax);
             // Check id
@@ -103,12 +108,14 @@ return [
                     m('dk_tags:bind_tags', $id, explode(', ', $data['tags']));
                 }
                 // Make money & Reserve money
-                m('sys_users:reserve_money', $id_user, $cost+$tax);
-                f('core:auth:update_moneys');
-                m('fn_logs:add_rows', [
-                    ['id_sys_users' => $id_user, 'type' => 2, 'sum' => $cost, 'comment' => "Reserve for project #$id"],
-                    ['id_sys_users' => $id_user, 'type' => 2, 'sum' => $tax, 'comment' => "Reserve tax for project #$id"],
-                ]);
+                if($cost > 0) {
+                    m('sys_users:reserve_money', $id_user, $cost+$tax);
+                    f('core:auth:update_moneys');
+                    m('fn_logs:add_rows', [
+                        ['id_sys_users' => $id_user, 'type' => 2, 'sum' => $cost, 'comment' => "Reserve for project #$id"],
+                        ['id_sys_users' => $id_user, 'type' => 2, 'sum' => $tax, 'comment' => "Reserve tax for project #$id"],
+                    ]);
+                }
                 // Increment count open projects
                 m('sys_settings:inc', 'count_open_projects');
                 return ['success'=>TRUE, 'id' => $id];

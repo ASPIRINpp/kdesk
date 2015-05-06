@@ -19,5 +19,7 @@ return [
     // Validation
     'Filed :filed :error' => 'Поле :filed :error',
     'not_empty' => 'не должно быть пустым!',
-    'equals' => ' должно совпадать с полем :field2'
+    'equals' => ' должно совпадать с полем :field2',
+    // app/views/project/index.php
+    'Not defined' => 'Не указанно'
 ];

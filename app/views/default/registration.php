@@ -12,8 +12,8 @@
     <div class="form-group">
         <label for="inputSex"><?= __('Sex') ?></label>
         <select name='Reg[sex]' class="form-control" id="inputSex">
-            <option <?= f('helpers:arr:get', 'sex', $_POST['Reg'], 0) == 0 ? 'selected' : ''; ?> value="0"><?= __('Male') ?></option>
-            <option <?= f('helpers:arr:get', 'sex', $_POST['Reg'], 1) == 1 ? 'selected' : ''; ?> value="1"><?= __('Female') ?></option>
+            <option <?= f('helpers:arr:get', 'sex', $_POST['Reg'], 1) == 1 ? 'selected' : ''; ?> value="1"><?= __('Male') ?></option>
+            <option <?= f('helpers:arr:get', 'sex', $_POST['Reg'], 0) == 0 ? 'selected' : ''; ?> value="0"><?= __('Female') ?></option>
         </select>
     </div>
     <div class="form-group">
