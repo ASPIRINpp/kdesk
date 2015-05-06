@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <th scope="row">Sex</th>
-            <td><?= ['Female', 'Male'][$profile['sex']]; ?></td>
+            <td><?= $profile['sex'] ? 'Female' : 'Male'; ?></td>
         </tr>
         <tr>
             <th scope="row">Time registration</th>
