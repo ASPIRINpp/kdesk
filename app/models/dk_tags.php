@@ -1,4 +1,4 @@
-<?php
+<?php defined('APP_PATH') or die('Access denied!');
 
 return [
     'dk_tags:get_by_project_id' => function($id) {

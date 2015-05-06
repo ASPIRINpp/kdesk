@@ -1,4 +1,4 @@
-<?php
+<?php defined('APP_PATH') or die('Access denied!');
 
 return [
     'dk_projects_comments:get_last' => function($id, $limit = 5, $offset = 0) {

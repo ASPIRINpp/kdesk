@@ -1,4 +1,4 @@
-<?php
+<?php defined('APP_PATH') or die('Access denied!');
 
 return [
     'sys_users:email_exist' => function($email) {

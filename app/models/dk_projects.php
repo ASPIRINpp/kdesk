@@ -1,4 +1,4 @@
-<?php
+<?php defined('APP_PATH') or die('Access denied!');
 
 return [
     'dk_projects:get_last' => function($count = 5) {

@@ -1,4 +1,4 @@
-<?php
+<?php defined('APP_PATH') or die('Access denied!');
 /**
  * type: 0 - debit, 1 - credit, 2 - inreseve, 3 - outreserve
  */

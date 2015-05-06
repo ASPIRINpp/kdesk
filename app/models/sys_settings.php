@@ -1,4 +1,4 @@
-<?php
+<?php defined('APP_PATH') or die('Access denied!');
 /**
  * type: 'string', 'byte', 'int', 'percent', 'bool'
  */

@@ -1,6 +1,4 @@
-<?php
-
-defined('APP_PATH') or die('Access denied!');
+<?php defined('APP_PATH') or die('Access denied!');
 
 /**
  * Validation methods

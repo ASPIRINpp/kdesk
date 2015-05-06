@@ -1,4 +1,5 @@
-<?php
+<?php defined('APP_PATH') or die('Access denied!');
+
 return [
     // app/views/elements/_project_thumb.php
     'Hello, my friend!' => 'Привет, мой друг!',
