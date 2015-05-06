@@ -26,7 +26,12 @@ return [
                     $r['errors']['password'] = ['check'];
                 } else {
                     $user = m('sys_users:get_data_by_email', $_POST['Login']['email']);
-                    f('core:auth:login', $user['id'], ['email' => $user['email'], 'login' => $user['login']]);
+                    f('core:auth:login', $user['id'], [
+                        'email' => $user['email'], 
+                        'login' => $user['login'], 
+                        'money' => $user['money'], 
+                        'money_reserve' => $user['money_reserve']
+                    ]);
                     f('core:response:redirect', '/');
                     return;
                 }

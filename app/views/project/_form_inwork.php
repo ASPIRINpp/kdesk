@@ -1,6 +1,6 @@
 <form id="projectForm" method="post">
     <span class="pull-right">
-        <input type="submit" name="Project[done]" value="Done" class="btn btn-lg btn-success">  or
-        <input type="submit" name="Project[cancel]" value="Сancel" class="btn btn-danger">
+        <button type="submit" name="Project[do]" value="done" class="btn btn-lg btn-success">Done</button> or
+        <button type="submit" name="Project[do]" value="cancel" class="btn btn-danger">Сancel</button>
     </span>
 </form>

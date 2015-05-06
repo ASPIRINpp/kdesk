@@ -15,4 +15,7 @@ return [
     'Sign in' => 'Войти',
     'Email' => 'Почта',
     'Password' => 'Пароль',
+    // Validation
+    'Filed :filed :error' => 'Поле :filed :error',
+    'not_empty' => 'не должно быть пустым!',
 ];

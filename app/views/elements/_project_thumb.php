@@ -1,5 +1,5 @@
 <?php
-$cost = !$cost ? FALSE : f('helpers:currency:format', $cost, 0, ',', ' ');
+$cost = !$cost ? FALSE : f('helpers:currency:dec_nformat', $cost, 0, ',', ' ');
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">

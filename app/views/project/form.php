@@ -1,7 +1,7 @@
 <div class="page-header">
     <h1>Create new project</h1>
 </div>
-
+<?= $alerts; ?>
 <form id="formProject" action="" method="post">
     <div class="form-group">
         <label for="inputTitle">Project title</label>

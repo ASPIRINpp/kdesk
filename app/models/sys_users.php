@@ -18,6 +18,10 @@ return [
         $sql = 'SELECT * FROM sys_users WHERE email = :email;';
         return f('db:mysql:q_current', $sql, [':email' => $email]);
     },
+    'sys_users:get_data_by_login' => function($login) {
+        $sql = 'SELECT * FROM sys_users WHERE login = :login;';
+        return f('db:mysql:q_current', $sql, [':login' => $login]);
+    },
     'sys_users:add_user' => function($email, $login, $password, $name, $sex, $surname = NULL, $middlename = NULL) {
         $password = f('helpers:password:hash', $password);
         $sql = 'INSERT INTO sys_users'
@@ -45,5 +49,22 @@ return [
             ':time_last_login' => $t,
             ':time_last_activity' => $t,
         ]);
+    },
+    'sys_users:get_money' => function($id, $key = FALSE) {
+        $sql = 'SELECT money, money_reserve FROM sys_users WHERE id = :id;';
+        $data = f('db:mysql:q_current', $sql, [':id' => (int) $id]);
+        return $key ? $data[$key] : $data;
+    },
+    'sys_users:reserve_money' => function($id, $amount) {
+        $sql = 'UPDATE sys_users SET money = money - :amount, money_reserve = money_reserve + :amount WHERE id = :id;';
+        return f('db:mysql:q_update', $sql, [':id' => (int) $id, ':amount' => (int) $amount]);
+    },
+    'sys_users:dec_reserve_money' => function($id, $amount) {
+        $sql = 'UPDATE sys_users SET money_reserve = money_reserve - :amount WHERE id = :id;';
+        return f('db:mysql:q_update', $sql, [':id' => (int) $id, ':amount' => (int) $amount]);
+    },
+    'sys_users:inc_money' => function($id, $amount) {
+        $sql = 'UPDATE sys_users SET money = money + :amount WHERE id = :id;';
+        return f('db:mysql:q_update', $sql, [':id' => (int) $id, ':amount' => (int) $amount]);
     }
 ];

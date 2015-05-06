@@ -3,6 +3,7 @@
 return [
     'app_name' => 'Super test',
     'lang' => 'ru',
+    'locale' => 'russian',
     'components' => [
         'core:cookie' => [
             'enable_salt' => FALSE,
@@ -16,6 +17,8 @@ return [
             'default_controller' => 'default',
             'default_action' => 'index',
             'routes' => [
+                'finance' => [['controller' => 'finance', 'action' => 'index']],
+                'profile(/<login>)' => [['controller' => 'profile', 'action' => 'index'], ['login' => '\w+']],
                 'project/<id>' => [['controller' => 'project', 'action' => 'index'], ['id' => '\d+']],
                 'manage/<id>' => [['controller' => 'project', 'action' => 'manage'], ['id' => '\d+']],
             ]
