@@ -24,7 +24,7 @@ return [
             ]
         ],
         'db:mysql' => [
-            'srv0' => ['h' => 'localhost', 'd' => 'kdesk', 'u' => 'root', 'p' => '']
+            'srv0' => ['h' => 'localhost', 'd' => 'kdesk', 'u' => 'root', 'p' => '', 'charset' => 'utf8']
         ]
     ]
 ];
