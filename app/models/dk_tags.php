@@ -21,16 +21,18 @@ return [
         if (empty($tags)) {
             return;
         }
+        // Trim all values
+        $tags = array_map('trim', $tags);
         
         // Fill ids array & values string
         $ids = f('helpers:arr:pluck_key', m('dk_tags:get_tags_id', $tags), 'tag');
         
         $values = '';
-        foreach ($tags as $tag) {
-            $tag = strtolower($tag);
-            $ids[":id_dk_tags_$tag"] = (int) (!isset($ids[$tag]) ? m('dk_tags:add', $tag) : $ids[$tag]['id']);
+        foreach ($tags as $k => $tag) {
+            $tag = mb_strtolower($tag, 'utf-8');
+            $ids[":id_dk_tags_$k"] = (int) (!isset($ids[$tag]) ? m('dk_tags:add', $tag) : $ids[$tag]['id']);
             unset($ids[$tag]);
-            $values .= " ,(:id_dk_projects, :id_dk_tags_$tag)";
+            $values .= " ,(:id_dk_projects, :id_dk_tags_$k)";
         }
         $values = substr($values, 2);
         

@@ -14,6 +14,7 @@ return [
         $logged = f('core:auth:logged');
         if ($logged) {
             $user_id = f('core:session:get', 'id');
+            f('core:auth:update_moneys');
         }
         
         // Get comment post data
@@ -32,28 +33,27 @@ return [
         if (isset($_POST['Project']) && $logged) {
              list($project, $alerts) = m('Project:do', f('helpers:arr:get', 'do', $_POST['Project']), $project);
         }
-        
         // Select form view
         $form = FALSE;
         if ($logged) {
-            if ($project['id_sys_users_author'] === $user_id) {
+            if ($project['id_sys_users_author'] == $user_id) {
                 $form = 'manage';
             } elseif ($project['status'] === 'open') {
                 $form = 'open';
-            } elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] === $user_id) {
+            } elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] == $user_id) {
                 $form = 'inwork';
             }
         }
         
         if ($project['status'] === 'closed') {
-            if($logged && $project['id_sys_users_performer'] === $user_id) {
+            if($logged && $project['id_sys_users_performer'] == $user_id) {
                 $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'success', 'text' => '<b>Congratulations!</b>You successfully done this project...'], TRUE);
             } else {
                 $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'danger', 'text' => '<b>Sorry!</b>This project already closed...'], TRUE);
             }
-        }elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] !== $user_id) {
+        }elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] != $user_id) {
             $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'warning', 'text' => '<b>Sorry!</b>This project already in work...'], TRUE);
-        }elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] === $user_id) {
+        }elseif ($project['status'] === 'inwork' && $project['id_sys_users_performer'] == $user_id) {
             $alerts .= f('core:view:print', 'elements/_alert', ['type' => 'success', 'text' => '<b>Greate!</b>You are work on this project...'], TRUE);
         }
 
@@ -84,7 +84,7 @@ return [
         }
         
         // This is not author
-        if($project['id_sys_users_author'] !== f('core:session:get', 'id')) {
+        if($project['id_sys_users_author'] != f('core:session:get', 'id')) {
             return f('core:response:redirect', '/project/'.$params['id']);
         }
         
@@ -104,6 +104,7 @@ return [
         if(!f('core:auth:logged')) {
             return f('core:response:redirect', '/');
         }
+        f('core:auth:update_moneys');
         $alerts = '';
         if(isset($_POST['Project'])) {
             $r = m('Project:create', $_POST['Project']);

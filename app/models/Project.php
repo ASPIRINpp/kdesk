@@ -19,7 +19,7 @@ return [
                 break;
             case 'done':
                 if($project['status'] === 'inwork' 
-                && $project['id_sys_users_performer'] === $user_id 
+                && $project['id_sys_users_performer'] == $user_id 
                 && $r = m('dk_projects:update_status', $project['id'], 'closed', FALSE) != FALSE) {
                     $project['status'] = 'closed';
                     if($project['cost'] > 0) {
@@ -40,7 +40,7 @@ return [
                 break;
             case 'cancel':
                 if($project['status'] === 'inwork' 
-                && $project['id_sys_users_performer'] === $user_id
+                && $project['id_sys_users_performer'] == $user_id
                 && $r = m('dk_projects:update_status', $project['id'], 'open', NULL) != FALSE) {
                     $project['status'] = 'open';
                     $project['id_sys_users_performer'] = NULL;
@@ -72,8 +72,8 @@ return [
             ['tags', 'callback', [function($tags) {
                 // @todo rewrite?
                 $tags = trim(str_replace([',', ' '], '', $tags));
-                if(f('helpers:validation:alpha_dash', $tags) 
-                && f('helpers:validation:alpha_numeric', $tags)) {
+                if(f('helpers:validation:alpha_dash', $tags, TRUE) 
+                && f('helpers:validation:alpha_numeric', $tags, TRUE)) {
                     return TRUE;
                 }
                 return FALSE;
@@ -105,7 +105,7 @@ return [
             if ($id) {
                 // Make tags
                 if(!empty($data['tags'])) {
-                    m('dk_tags:bind_tags', $id, explode(', ', $data['tags']));
+                    m('dk_tags:bind_tags', $id, explode(',', $data['tags']));
                 }
                 // Make money & Reserve money
                 if($cost > 0) {

@@ -7,7 +7,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <form method="post" action="/" class="navbar-form navbar-right">
                     <div class="form-group">
-                        <input type="text" name="Login[email]" placeholder="<?= __('Email') ?>" class="form-control">
+                        <input type="text" name="Login[email]" placeholder="<?= __('Email') ?>" value="<?= f('helpers:arr:get', 'email', $_POST['Login']); ?>" class="form-control">
                     </div>
                     <div class="form-group">
                         <input type="password" name="Login[password]" placeholder="<?= __('Password') ?>" class="form-control">
