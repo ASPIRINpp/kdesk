@@ -15,7 +15,7 @@ return [
             .' (:id_dk_projects, :id_sys_users, :comment, :time)';
         return f('db:mysql:q_insert', $sql, [
             ':id_dk_projects' => $id,
-            ':comment' => $comment,
+            ':comment' => f('helpers:string:markup', $comment),
             ':id_sys_users' => $id_author,
             ':time' => time()
         ]);
