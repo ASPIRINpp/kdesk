@@ -43,7 +43,7 @@ CREATE TABLE `ch_search_text_projects` (
   `cost` bigint(19) unsigned NOT NULL,
   `time_created` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_dk_project`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `dk_projects`
@@ -162,4 +162,4 @@ CREATE TABLE `sys_users` (
   `auth_key` varchar(255) DEFAULT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
