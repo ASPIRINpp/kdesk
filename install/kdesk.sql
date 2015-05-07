@@ -5,42 +5,45 @@ Target Server Type    : MYSQL
 Target Server Version : 50541
 File Encoding         : 65001
 
-Date: 2015-05-06 17:54:20
+Date: 2015-05-08 02:43:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for `ch_counters`
--- ----------------------------
-DROP TABLE IF EXISTS `ch_counters`;
-CREATE TABLE `ch_counters` (
-  `key` char(50) NOT NULL,
-  `val` bigint(20) NOT NULL,
-  PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of ch_counters
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `ch_last_projects`
 -- ----------------------------
 DROP TABLE IF EXISTS `ch_last_projects`;
 CREATE TABLE `ch_last_projects` (
-  `id` int(10) unsigned NOT NULL,
+  `id_dk_project` int(10) unsigned NOT NULL,
+  `id_sys_users_author` int(10) unsigned NOT NULL,
   `title` varchar(255) NOT NULL,
+  `description_short` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `views` int(10) unsigned NOT NULL DEFAULT '0',
   `status` enum('open','inwork','closed','deleted') NOT NULL DEFAULT 'open',
   `cost` bigint(19) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `tax` bigint(20) NOT NULL DEFAULT '0',
+  `time_created` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id_dk_project`),
+  KEY `fk_dk_projects_sys_users1_idx` (`id_sys_users_author`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of ch_last_projects
+-- Table structure for `ch_search_text_projects`
 -- ----------------------------
+DROP TABLE IF EXISTS `ch_search_text_projects`;
+CREATE TABLE `ch_search_text_projects` (
+  `id_dk_project` int(10) unsigned NOT NULL,
+  `id_sys_users_performer` int(10) unsigned DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `description_short` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `keywords` text,
+  `status` enum('open','inwork','closed','deleted') NOT NULL,
+  `cost` bigint(19) unsigned NOT NULL,
+  `time_created` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id_dk_project`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `dk_projects`
@@ -63,7 +66,7 @@ CREATE TABLE `dk_projects` (
   PRIMARY KEY (`id`),
   KEY `fk_dk_projects_sys_users1_idx` (`id_sys_users_author`),
   KEY `fk_dk_projects_sys_users2_idx` (`id_sys_users_performer`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `dk_projects_comments`
@@ -78,7 +81,7 @@ CREATE TABLE `dk_projects_comments` (
   PRIMARY KEY (`id`),
   KEY `fk_dk_projects_comments_dk_projects1_idx` (`id_dk_projects`),
   KEY `fk_dk_projects_comments_sys_users1_idx` (`id_sys_users`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `dk_projects_has_dk_tags`
@@ -100,7 +103,7 @@ CREATE TABLE `dk_tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `tag` varchar(155) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=152 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `fn_logs`
@@ -115,7 +118,7 @@ CREATE TABLE `fn_logs` (
   `time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_fn_logs_sys_users1_idx` (`id_sys_users`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for `sys_settings`
@@ -134,6 +137,8 @@ CREATE TABLE `sys_settings` (
 INSERT INTO `sys_settings` VALUES ('tax', '8', 'percent');
 INSERT INTO `sys_settings` VALUES ('project_money', '0', 'int');
 INSERT INTO `sys_settings` VALUES ('count_open_projects', '0', 'int');
+INSERT INTO `sys_settings` VALUES ('max_ch_last_projects', '10', 'int');
+INSERT INTO `sys_settings` VALUES ('sh_last_project_id', '0', 'int');
 
 -- ----------------------------
 -- Table structure for `sys_users`
@@ -157,4 +162,4 @@ CREATE TABLE `sys_users` (
   `auth_key` varchar(255) DEFAULT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

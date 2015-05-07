@@ -24,7 +24,11 @@ return [
             ]
         ],
         'db:mysql' => [
-            'srv0' => ['h' => 'localhost', 'd' => 'kdesk', 'u' => 'root', 'p' => '', 'charset' => 'utf8']
+            'srv_global' => ['h' => 'localhost', 'd' => 'kdesk', 'u' => 'root', 'p' => '', 'charset' => 'utf8'],
+            'srv_users' => ['h' => 'localhost', 'd' => 'kdesk_users', 'u' => 'root', 'p' => '', 'charset' => 'utf8'],
+            'srv_projects_1' => ['h' => 'localhost', 'd' => 'kdesk_projects_1', 'u' => 'root', 'p' => '', 'charset' => 'utf8'],
+            'srv_projects_2' => ['h' => 'localhost', 'd' => 'kdesk_projects_2', 'u' => 'root', 'p' => '', 'charset' => 'utf8'],
+            'srv_search' => ['h' => 'localhost', 'd' => 'kdesk_search', 'u' => 'root', 'p' => '', 'charset' => 'utf8'],
         ]
     ]
 ];
